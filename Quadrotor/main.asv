@@ -1,0 +1,119 @@
+% main
+
+parameters
+
+%starting all from 0
+phi0 = 0; theta0 = 0; psi0 = 0; P0 = 0; Q0 = 0; R0 = 0; 
+U0 = 0; V0 = 0; W0 = 0; X0 = 0; Y0 = 0; Z0 = 0;
+
+x0 = [phi0; theta0; psi0; P0; Q0; R0; U0; ...
+      V0; W0; X0; Y0; Z0];
+
+tspan = [0 10];
+
+[t, x] = ode45(@(t,x) dynamics(t,x,params), tspan, x0);
+
+phi = x(:,1);
+theta = x(:,2);
+psi = x(:,3);
+
+P = x(:,4);
+Q = x(:,5);
+R = x(:,6);
+
+U = x(:,7);
+V = x(:,8);
+W = x(:,9);
+
+X = x(:,10);
+Y = x(:,11);
+Z = x(:,12);
+
+ex = X - params.Xd;
+ey = Y - params.Yd;
+ez = Z - params.Zd;
+
+altitude = -Z; %so its +ve
+
+figure; %euler angles
+plot(t, phi, t, theta, t, psi)
+xlabel('Time (s)')
+ylabel('Angle (rad)')
+title('Euler Angles')
+legend('\phi', '\theta', '\psi')
+grid on;
+
+figure; %body rates
+plot(t, P, t, Q, t, R)
+xlabel('Time (s)')
+ylabel('Body Rate (rad/s)')
+title('Body Rates')
+legend('P', 'Q', 'R')
+grid on;
+
+figure;
+plot(t, U, t, V, t, W)
+xlabel('Time (s)')
+ylabel('Velocity (m/s)')
+title('Body Velocities')
+legend('U', 'V', 'W')
+grid on;
+
+figure;
+plot(t, X, t, Y, t, Z)
+xlabel('Time (s)')
+ylabel('Position (m)')
+title('Positions wrt Earth')
+legend('X', 'Y', 'Z')
+grid on;
+
+figure; %+ve altitude
+plot(t, altitude)
+xlabel('Time (s)')
+ylabel('Altitude (m)')
+title('Positive Altitude')
+grid on;
+
+figure; %errors in positi
+plot(t, ex, t, ey, t, ez)
+xlabel('Time (s)')
+ylabel('Position Error (m)')
+title('Position Errors')
+legend('e_X', 'e_Y', 'e_Z')
+grid on;
+
+figure;
+plot(t, ex)
+xlabel('Time (s)')
+ylabel('X Error (m)')
+title('X Position Error')
+grid on;
+
+figure;
+plot(t, ey)
+xlabel('Time (s)')
+ylabel('Y Error (m)')
+title('Y Position Error')
+grid on;
+
+figure;
+plot(t, ez)
+xlabel('Time (s)')
+ylabel('Z Error (m)')
+title('Z Position Error')
+grid on;
+
+figure;
+plot(X, Y)
+xlabel('X (m)')
+ylabel('Y (m)')
+title('Horizontal Trajectory')
+grid on;
+
+figure;
+plot3(X, Y, Z)
+xlabel('X (m)')
+ylabel('Y (m)')
+zlabel('Z (m)')
+title('3D Trajectory')
+grid on;

@@ -1,0 +1,14 @@
+%altitude_control
+function Td = position_control(X, Y, Z, W, params)
+
+    ex = X - params.Xd;
+    Td = params.m*params.g + params.Kp_z*ex + params.Kd_z*W;
+    ey = Z - params.Yd;
+    Td = params.m*params.g + params.Kp_z*ey + params.Kd_z*W;
+    ez = Z - params.Zd;
+    Td = params.m*params.g + params.Kp_z*ez + params.Kd_z*W;
+   
+    Td = max(Td, 0);
+
+end
+

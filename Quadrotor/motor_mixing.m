@@ -1,0 +1,13 @@
+% motor_mixer
+
+function omega = motor_mixing(T, L, M, N, params)
+   B = [params.b,  params.b,  params.b,  params.b;
+     params.l*params.b/sqrt(2), -params.l*params.b/sqrt(2), -params.l*params.b/sqrt(2),  params.l*params.b/sqrt(2);
+     params.l*params.b/sqrt(2),  params.l*params.b/sqrt(2), -params.l*params.b/sqrt(2), -params.l*params.b/sqrt(2);
+     params.d, -params.d, params.d, -params.d];
+    % TLMN = B*omega^2
+    % omega^2 = B^-1 * TLMN
+    omega_sq = B \ [T; L; M; N];
+
+    omega = sqrt(omega_sq);
+end 
